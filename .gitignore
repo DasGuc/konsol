@@ -12,7 +12,7 @@ phpunit.xml
 composer.lock
 box.json
 
-tests/dev/
+tests/
 console/
 
 todo
