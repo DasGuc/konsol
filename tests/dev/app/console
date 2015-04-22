@@ -1,0 +1,87 @@
+title: Priss
+figlet: usaflag
+description: banner4
+welcome: <log>ttttt <error>ttt ttt tt<n:1>
+help: test
+version: 1.1
+
+arguments:
+    name:
+        description: give name
+        string
+        # regexp: ([a-z]+)\:([a-z0-9]+)
+        default: toto
+
+options:
+    directory:
+        alias: d
+        description: give exist directory
+        be:
+            - a
+            - b
+            - c
+            - tata
+
+#map:
+#    -
+#        type: question
+#        text: test
+#
+#    -
+#        type: press
+#        key: enter
+#        abort: 10000
+
+menu:
+    items:
+        - foo
+        - bar
+        - foobar
+
+    quit
+    text: choose
+    mode: type
+
+#press:
+#    key: any
+#    abort: 5000
+
+#questions:
+#    q1:
+#        text: test
+#        default: %arguments.name%
+#        regex: /([a-z]+)/i
+#        callback:
+#            thread
+#            loader:
+#                type: dot
+#                delay: 200
+#                color: default
+#                step: 10
+#                percent
+#            file: /var/www/konsol/tests/dev/file.php
+#            class: File
+#            method: init
+#            arguments: ["toto", %question.answer%, %this.method%, @progress@]
+
+#questions:
+#    q1:
+#        text: <log>my first question</log>
+#        default: test
+#        require
+#        autocomplete:
+#            1
+#            2
+#            3
+#        subs:
+#            q1:
+#                text: <bg:red;fg:white>test
+#                loop
+#            q2:
+#                rules: q1 == test
+#                text: try
+#
+#    q2:
+#        text: my second question
+#        password: md5
+#        require
