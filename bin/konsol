@@ -1,0 +1,93 @@
+#!/usr/bin/env php
+<?php
+
+    require '../vendor/autoload.php';
+
+    spl_autoload_register( function($className) {
+        $className = ltrim($className, '\\');
+        $fileName  = '';
+        $namespace = '';
+
+        if ($lastNsPos = strripos($className, '\\')) {
+            $namespace = substr($className, 0, $lastNsPos);
+            $className = substr($className, $lastNsPos + 1);
+            $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+        }
+
+        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+
+        require __DIR__.'/../src/'.$fileName;
+    });
+
+    if ($cmd = new \Konsol\Konsol()) {
+        $name = $cmd->getConsoleName();
+        $data = \Spyc::YAMLLoad($name);
+
+        /**
+         * BUILD OPTIONS
+         */
+        if (!empty($data['arguments'])) {
+            $arguments = $data['arguments'];
+
+            foreach ($arguments as $name => $args) {
+                $o = new \Konsol\Option($name, true);
+
+                foreach ($args as $key => $arg) {
+                    if ($key === 'description') {
+                        $o->setDescription($arg);
+                    } elseif ($key === 'be'){
+                        $o->setBe($arg);
+                    } elseif ($key === 'default'){
+                        $o->setDefault($arg);
+                    } elseif ($key === 'regexp'){
+                        $o->setRegexp($arg);
+                    } elseif (in_array($arg, array('string', 'int', 'boolean', 'directory', 'file'))) {
+                        $o->setType($arg);
+                    }
+                }
+
+                $o->require();
+                $o->argument();
+
+                $cmd->add($o);
+            }
+        }
+
+        if (!empty($data['options'])) {
+            $options = $data['options'];
+
+            foreach ($options as $name => $opts) {
+                $o = new \Konsol\Option($name);
+
+                foreach ($opts as $key => $opt) {
+                    if ($key === 'description') {
+                        $o->setDescription($opt);
+                    } elseif($key === 'alias') {
+                        if (is_array($opt)) {
+                            foreach ($opt as $op) {
+                                $o->setAlias($op);
+                            }
+                        } else {
+                            $o->setAlias($opt);
+                        }
+                    } elseif ($key === 'be'){
+                        $o->setBe($arg);
+                    } elseif ($key === 'default'){
+                        $o->setDefault($arg);
+                    } elseif ($opt === 'require') {
+                        $o->require();
+                    } elseif ($key === 'regexp'){
+                        $o->setRegexp($opt);
+                    }  elseif (in_array($opt, array('string', 'int', 'boolean', 'directory', 'file'))) {
+                        $o->setType($opt);
+                    }
+                }
+
+                $cmd->add($o);
+            }
+        }
+
+        $cmd->run();
+    }
+
+    echo PHP_EOL;

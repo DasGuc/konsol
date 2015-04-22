@@ -1,0 +1,26 @@
+{
+    "name": "spotinux/phpmd",
+
+    "authors": [
+        {
+            "name": "Castellant Guillaume",
+            "email": "gcastellant@gmail.com"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.3.0",
+        "mustangostang/spyc": "0.5.*@dev",
+        "kevinlebrun/colors.php": "dev-master",
+        "packaged/figlet": "dev-master",
+        "erusev/parsedown": "dev-master"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "Phpmd": "src/"
+        }
+    },
+
+    "minimum-stability": "dev"
+}
